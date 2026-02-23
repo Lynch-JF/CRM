@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menssage</title>
+<link rel="stylesheet" href="CSS/style.css">
+
+<style>
+.hidden{ display:none !important; }
+</style>
+
+</head>
+
+<body>
+
+<div class="crm-container">
+
+<!-- ================= SIDEBAR ================= -->
+<aside class="sidebar">
+
+<div class="logo-area">
+<img src="img/logo2actualizado.png" class="logo" style="width:80%;">
+</div>
+
+<div class="header-search">
+<input type="text" placeholder="Buscar cliente...">
+<button class="search-btn">🔍</button>
+</div>
+
+<ul class="contact-list" id="contactList">
+
+<li data-id="1">
+<strong>Juan Pérez</strong>
+<span>Hola, ¿tienen stock?</span>
+</li>
+
+<li data-id="2">
+<strong>María García</strong>
+<span>Gracias por la info.</span>
+</li>
+
+</ul>
+
+</aside>
+
+<!-- ================= CHAT ================= -->
+<main class="chat-area">
+
+<header class="chat-header hidden">
+<h3>Bandeja de mensajes</h3>
+</header>
+
+<div class="messages-container" id="chatWindow">
+
+<!-- estado vacío -->
+<div class="empty-state" id="emptyState">
+<img src="img/logo2actualizado.png" style="width:300px;">
+<h3>Selecciona un chat</h3>
+<p>Tu bandeja está lista</p>
+</div>
+
+</div>
+
+<form class="input-area hidden" id="chatForm">
+<input type="text" id="msgInput" placeholder="Escribe un mensaje..." autocomplete="off">
+<button type="submit">Enviar</button>
+</form>
+
+</main>
+
+<!-- ================= PANEL CLIENTE ================= -->
+<aside class="details-panel hidden">
+
+<h3>Cliente</h3>
+
+<div class="client-card">
+<h4>Información básica</h4>
+<p><strong>Nombre:</strong> <span id="clientName"></span></p>
+<p><strong>Email:</strong> <span id="clientEmail"></span></p>
+</div>
+
+<div class="client-card">
+<h4>Datos adicionales</h4>
+
+<label>Teléfono</label>
+<input id="clientPhone">
+
+<label>Ciudad</label>
+<input id="clientCity">
+
+<label>Notas</label>
+<textarea id="clientNotes"></textarea>
+</div>
+
+<div class="client-card actions">
+<button class="btn help">Ayuda</button>
+<button class="btn close" id="closeChat">Cerrar chat</button>
+</div>
+
+</aside>
+
+</div>
+
+<script>
+
+// ================= BASE SIMULADA =================
+
+const chatData = {
+
+1:{
+name:"Juan Pérez",
+email:"juan@ejemplo.com",
+phone:"",
+city:"",
+notes:"",
+messages:[
+{ text:"Hola, ¿tienen stock?", type:"received", time:"10:00" }
+]
+},
+
+2:{
+name:"María García",
+email:"maria@ejemplo.com",
+phone:"",
+city:"",
+notes:"",
+messages:[
+{ text:"Gracias por la info.", type:"sent", time:"09:15" }
+]
+}
+
+};
+
+// ================= VARIABLES =================
+
+let activeChatId = null;
+
+const headerUI = document.querySelector(".chat-header");
+const inputUI = document.querySelector(".input-area");
+const detailsUI = document.querySelector(".details-panel");
+
+const clientName = document.getElementById("clientName");
+const clientEmail = document.getElementById("clientEmail");
+const clientPhone = document.getElementById("clientPhone");
+const clientCity = document.getElementById("clientCity");
+const clientNotes = document.getElementById("clientNotes");
+
+const chatWindow = document.getElementById("chatWindow");
+const chatHeader = document.querySelector(".chat-header h3");
+
+
+// ================= CARGAR CLIENTE =================
+
+function loadClientDetails(id){
+
+const c = chatData[id];
+
+clientName.textContent = c.name;
+clientEmail.textContent = c.email;
+clientPhone.value = c.phone;
+clientCity.value = c.city;
+clientNotes.value = c.notes;
+
+}
+
+
+// ================= CARGAR CHAT =================
+
+// ================= CARGAR CHAT (CORREGIDO) =================
+function loadChat(id) {
+  activeChatId = id; // Aquí id es "1" o "2"
+  const data = chatData[id];
+
+  // Eliminamos el estado vacío
+  const emptyState = document.getElementById("emptyState");
+  if (emptyState) emptyState.remove();
+
+  // Actualizamos el título del chat
+  chatHeader.innerHTML = `${data.name} <span class="status online"></span>`;
+
+  // LLAMADA CLAVE: Usamos el ID directamente para el backend
+  fetchMessages(id); 
+
+  loadClientDetails(id);
+
+  // Clase activa en la lista
+  document.querySelectorAll('.contact-list li').forEach(li => li.classList.remove('active'));
+  const activeLi = document.querySelector(`[data-id="${id}"]`);
+  if (activeLi) activeLi.classList.add('active');
+}
+
+
+function resetChatUI(){
+
+activeChatId = null;
+
+// limpiar mensajes
+chatWindow.innerHTML = `
+<div class="empty-state" id="emptyState">
+<img src="img/logo2.png" style="width:120px;">
+<h3>Selecciona un chat</h3>
+<p>Tu bandeja está lista</p>
+</div>
+`;
+
+// ocultar UI
+headerUI.classList.add("hidden");
+inputUI.classList.add("hidden");
+detailsUI.classList.add("hidden");
+
+// limpiar selección visual
+document.querySelectorAll(".contact-list li")
+.forEach(li=>li.classList.remove("active"));
+
+// borrar sesión
+localStorage.removeItem("activeChat");
+
+}
+
+
+// ================= EVENTOS =================
+
+document.querySelectorAll(".contact-list li")
+.forEach(item=>{
+item.addEventListener("click",()=>{
+loadChat(item.dataset.id);
+});
+});
+
+
+// ================= ENVIAR MENSAJE =================
+
+document.getElementById("chatForm")
+.addEventListener("submit",e=>{
+
+e.preventDefault();
+
+if(!activeChatId) return;
+
+const input = document.getElementById("msgInput");
+const text = input.value.trim();
+
+if(!text) return;
+
+const time = new Date().toLocaleTimeString([],{
+hour:"2-digit",
+minute:"2-digit"
+});
+
+chatData[activeChatId].messages.push({
+text,
+type:"sent",
+time
+});
+
+renderMessage(text,"sent",time);
+
+input.value="";
+
+});
+
+
+// ================= RENDER MENSAJE =================
+
+function renderMessage(text,type,time){
+
+const msg = document.createElement("div");
+
+msg.className=`message ${type}`;
+msg.innerHTML=`${text}<small>${time}</small>`;
+
+chatWindow.appendChild(msg);
+
+chatWindow.scrollTop = chatWindow.scrollHeight;
+
+}
+
+
+// ================= GUARDAR DATOS CLIENTE =================
+
+[clientPhone,clientCity,clientNotes]
+.forEach(input=>{
+
+input.addEventListener("input",()=>{
+
+if(!activeChatId) return;
+
+const c = chatData[activeChatId];
+
+c.phone = clientPhone.value;
+c.city = clientCity.value;
+c.notes = clientNotes.value;
+
+});
+
+});
+
+const savedChat = localStorage.getItem("activeChat");
+
+if(savedChat && chatData[savedChat]){
+loadChat(savedChat);
+}
+
+document.getElementById("closeChat")
+.addEventListener("click", resetChatUI);
+
+// ================= FETCH MESSAGES =================
+async function fetchMessages(chatId) {
+    try {
+        const res = await fetch(`http://localhost:3000/messages/${chatId}`);
+        const data = await res.json();
+
+        chatWindow.innerHTML = ""; 
+        headerUI.classList.remove("hidden");
+        inputUI.classList.remove("hidden");
+        detailsUI.classList.remove("hidden");
+
+        data.forEach(msg => {
+            renderMessage(msg.text, msg.type, msg.time);
+        });
+    } catch (error) {
+        console.error("Error cargando mensajes:", error);
+        chatWindow.innerHTML = `<p style="color:red; padding:20px;">Error de conexión</p>`;
+    }
+}
+
+document.getElementById("chatForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  
+  const input = document.getElementById("msgInput");
+  const text = input.value.trim();
+  
+  if(!text || !activeChatId) return;
+
+  const time = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  const nuevoMsg = { text: text, type: "sent", time: time };
+
+  // 1. Lo dibujamos en la pantalla de inmediato
+  renderMessage(text, "sent", time);
+  input.value = "";
+
+  // 2. Lo mandamos al servidor para que se guarde
+  try {
+    await fetch(`http://localhost:3000/messages/${activeChatId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(nuevoMsg)
+    });
+    console.log("Mensaje guardado en el servidor");
+  } catch (error) {
+    console.error("Error al guardar:", error);
+  }
+});
+
+
+
+
+</script>
+
+</body>
+</html>
