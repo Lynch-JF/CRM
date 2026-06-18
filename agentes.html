@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXO — Agentes</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --ink-900: #080d18;
+  --ink-850: #0d1424;
+  --ink-800: #111827;
+  --ink-700: #1a2538;
+  --ink-600: #243044;
+  --b-lo:  rgba(255,255,255,0.06);
+  --b-md:  rgba(255,255,255,0.10);
+  --b-hi:  rgba(255,255,255,0.16);
+  --t-hi:  rgba(255,255,255,0.95);
+  --t-md:  rgba(255,255,255,0.52);
+  --t-lo:  rgba(255,255,255,0.28);
+  --t-xlo: rgba(255,255,255,0.14);
+  --violet: #6366f1;
+  --violet-d: #4f46e5;
+  --violet-lo: rgba(99,102,241,0.14);
+  --violet-b:  rgba(99,102,241,0.30);
+  --emerald: #10b981;
+  --amber: #f59e0b;
+  --danger-t:  #f87171;
+  --danger-bg: rgba(239,68,68,0.08);
+  --danger-b:  rgba(239,68,68,0.22);
+  --r: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+}
+
+html, body { height: 100%; overflow: hidden; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--ink-900);
+  color: var(--t-hi);
+  display: flex;
+  height: 100vh;
+}
+
+.app { display: flex; width: 100%; height: 100vh; overflow: hidden; }
+
+/* ===== NAV LATERAL ===== */
+.sidenav {
+  width: 56px;
+  min-width: 56px;
+  background: var(--ink-850);
+  border-right: 0.5px solid var(--b-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 0;
+  gap: 4px;
+  z-index: 20;
+}
+
+.sidenav-logo {
+  width: 34px;
+  height: 34px;
+  background: var(--violet);
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+
+.sidenav-logo svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.nav-item {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--r);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--t-lo);
+  font-size: 18px;
+  transition: background .15s, color .15s;
+  position: relative;
+  text-decoration: none;
+}
+
+.nav-item:hover { background: var(--b-lo); color: var(--t-md); }
+.nav-item.active { background: var(--violet-lo); color: #a5b4fc; }
+
+.nav-item .tooltip {
+  position: absolute;
+  left: calc(100% + 10px);
+  background: var(--ink-700);
+  border: 0.5px solid var(--b-hi);
+  color: var(--t-hi);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: var(--r);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity .15s, transform .15s;
+  z-index: 50;
+}
+
+.nav-item:hover .tooltip { opacity: 1; transform: none; }
+
+.nav-sep {
+  width: 24px;
+  height: 0.5px;
+  background: var(--b-md);
+  margin: 6px 0;
+}
+
+.nav-bottom { margin-top: auto; }
+
+.user-av-sm {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--r);
+  background: var(--violet-lo);
+  border: 0.5px solid var(--violet-b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 600;
+  color: #a5b4fc;
+  cursor: pointer;
+}
+
+/* ===== MAIN CONTENT ===== */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--ink-800);
+  overflow: hidden;
+}
+
+/* ===== TOPBAR ===== */
+.topbar {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  border-bottom: 0.5px solid var(--b-md);
+  flex-shrink: 0;
+  background: var(--ink-850);
+}
+
+.topbar-left { display: flex; align-items: center; gap: 12px; }
+
+.page-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--t-hi);
+  letter-spacing: -0.2px;
+}
+
+.breadcrumb {
+  font-size: 12px;
+  color: var(--t-xlo);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.breadcrumb span { color: var(--t-lo); }
+
+.topbar-right { display: flex; align-items: center; gap: 8px; }
+
+.tbtn {
+  height: 30px;
+  padding: 0 12px;
+  border-radius: var(--r);
+  border: 0.5px solid var(--b-md);
+  background: var(--b-lo);
+  color: var(--t-md);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background .15s, color .15s;
+}
+.tbtn:hover { background: var(--b-md); color: var(--t-hi); }
+.tbtn i { font-size: 14px; }
+
+.tbtn.primary {
+  background: var(--violet);
+  border-color: var(--violet);
+  color: #fff;
+}
+.tbtn.primary:hover { background: var(--violet-d); border-color: var(--violet-d); }
+
+/* ===== CONTENT AREA ===== */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--b-md) transparent;
+}
+.content::-webkit-scrollbar { width: 4px; }
+.content::-webkit-scrollbar-thumb { background: var(--b-md); border-radius: 2px; }
+
+/* ===== STAT CARDS ===== */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--ink-700);
+  border: 0.5px solid var(--b-md);
+  border-radius: var(--r-md);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stat-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stat-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--t-lo);
+  text-transform: uppercase;
+  letter-spacing: .8px;
+}
+
+.stat-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.stat-icon.violet { background: var(--violet-lo); color: #a5b4fc; }
+.stat-icon.green  { background: rgba(16,185,129,0.12); color: #6ee7b7; }
+.stat-icon.amber  { background: rgba(245,158,11,0.12); color: #fcd34d; }
+.stat-icon.red    { background: var(--danger-bg); color: var(--danger-t); }
+
+.stat-value {
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--t-hi);
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.stat-sub { font-size: 11px; color: var(--t-xlo); }
+
+/* ===== SECTION HEADER ===== */
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--t-lo);
+  text-transform: uppercase;
+  letter-spacing: .9px;
+}
+
+/* ===== FILTERS ===== */
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--ink-700);
+  border: 0.5px solid var(--b-md);
+  border-radius: var(--r);
+  padding: 7px 12px;
+  flex: 1;
+  max-width: 280px;
+  transition: border-color .2s;
+}
+.search-wrap:focus-within { border-color: var(--violet-b); }
+.search-wrap i { font-size: 13px; color: var(--t-xlo); }
+.search-wrap input {
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--t-hi);
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  flex: 1;
+  min-width: 0;
+}
+.search-wrap input::placeholder { color: var(--t-xlo); }
+
+.filter-select {
+  background: var(--ink-700);
+  border: 0.5px solid var(--b-md);
+  border-radius: var(--r);
+  padding: 7px 10px;
+  color: var(--t-md);
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  padding-right: 28px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.28)' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  transition: border-color .2s;
+}
+.filter-select:focus { border-color: var(--violet-b); }
+.filter-select option { background: var(--ink-700); }
+
+/* ===== AGENTS TABLE ===== */
+.table-wrap {
+  background: var(--ink-700);
+  border: 0.5px solid var(--b-md);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+
+.table-head {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr 1fr 1fr 1fr 80px;
+  padding: 10px 18px;
+  border-bottom: 0.5px solid var(--b-md);
+  background: var(--ink-800);
+}
+
+.th {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--t-xlo);
+  text-transform: uppercase;
+  letter-spacing: .9px;
+}
+
+.agent-row {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr 1fr 1fr 1fr 80px;
+  padding: 13px 18px;
+  border-bottom: 0.5px solid var(--b-lo);
+  align-items: center;
+  transition: background .15s;
+}
+.agent-row:last-child { border-bottom: none; }
+.agent-row:hover { background: var(--b-lo); }
+
+/* Agent identity */
+.agent-id {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ag-av {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--r);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  flex-shrink: 0;
+  position: relative;
+}
+.ag-av.v  { background: rgba(99,102,241,0.2);  color: #a5b4fc; }
+.ag-av.t  { background: rgba(6,182,212,0.15);  color: #67e8f9; }
+.ag-av.g  { background: rgba(16,185,129,0.15); color: #6ee7b7; }
+.ag-av.pk { background: rgba(236,72,153,0.15); color: #f9a8d4; }
+.ag-av.a  { background: rgba(245,158,11,0.15); color: #fcd34d; }
+.ag-av.r  { background: rgba(239,68,68,0.12);  color: #f87171; }
+
+.online-dot {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 2px solid var(--ink-700);
+}
+.online-dot.on  { background: var(--emerald); }
+.online-dot.off { background: var(--t-xlo); }
+.online-dot.busy { background: var(--amber); }
+
+.ag-name { font-size: 13px; font-weight: 500; color: var(--t-hi); }
+.ag-email { font-size: 11px; color: var(--t-lo); margin-top: 1px; }
+
+/* Role badge */
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: 20px;
+  border: 0.5px solid transparent;
+}
+.role-badge.admin     { background: var(--violet-lo); color: #a5b4fc; border-color: var(--violet-b); }
+.role-badge.agente    { background: var(--b-lo); color: var(--t-md); border-color: var(--b-md); }
+.role-badge.supervisor{ background: rgba(245,158,11,0.12); color: #fcd34d; border-color: rgba(245,158,11,0.28); }
+.role-badge.solo-vista { background: rgba(6,182,212,0.10); color: #67e8f9; border-color: rgba(6,182,212,0.25); }
+
+/* Status */
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--t-md);
+}
+.status-chip .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+.status-chip.on   .dot { background: var(--emerald); }
+.status-chip.off  .dot { background: var(--t-xlo); }
+.status-chip.busy .dot { background: var(--amber); }
+
+/* Tickets count */
+.ticket-count { font-size: 12px; color: var(--t-md); font-variant-numeric: tabular-nums; }
+
+/* Channels */
+.ch-icons { display: flex; gap: 5px; }
+.ch-ico {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}
+.ch-ico.wa { background: rgba(37,211,102,0.12); color: #4ade80; }
+.ch-ico.ig { background: rgba(236,72,153,0.12);  color: #f9a8d4; }
+.ch-ico.fb { background: rgba(59,130,246,0.12);  color: #93c5fd; }
+
+/* Row actions */
+.row-actions {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
+  opacity: 0;
+  transition: opacity .15s;
+}
+.agent-row:hover .row-actions { opacity: 1; }
+
+.row-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r);
+  border: 0.5px solid var(--b-md);
+  background: var(--b-lo);
+  color: var(--t-lo);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.row-btn:hover { background: var(--b-md); color: var(--t-hi); }
+.row-btn.danger:hover { background: var(--danger-bg); color: var(--danger-t); border-color: var(--danger-b); }
+
+/* ===== MODAL OVERLAY ===== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .22s;
+  padding: 24px;
+}
+.overlay.open { opacity: 1; pointer-events: all; }
+
+.modal {
+  background: var(--ink-700);
+  border: 0.5px solid var(--b-hi);
+  border-radius: var(--r-lg);
+  width: 100%;
+  max-width: 440px;
+  transform: translateY(12px) scale(0.98);
+  transition: transform .22s cubic-bezier(.22,1,.36,1);
+  overflow: hidden;
+}
+.overlay.open .modal { transform: none; }
+
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px 16px;
+  border-bottom: 0.5px solid var(--b-md);
+}
+
+.modal-title { font-size: 14px; font-weight: 600; color: var(--t-hi); }
+
+.modal-close {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r);
+  background: var(--b-lo);
+  border: 0.5px solid var(--b-md);
+  color: var(--t-lo);
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.modal-close:hover { background: var(--b-md); color: var(--t-hi); }
+
+.modal-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+
+.mfield { display: flex; flex-direction: column; gap: 6px; }
+
+.mfield label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--t-lo);
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.mfield label i { font-size: 13px; }
+
+.mfield input,
+.mfield select {
+  background: var(--ink-800);
+  border: 0.5px solid var(--b-md);
+  border-radius: var(--r);
+  padding: 10px 12px;
+  color: var(--t-hi);
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color .2s;
+  width: 100%;
+}
+.mfield input:focus,
+.mfield select:focus { border-color: var(--violet-b); }
+.mfield input::placeholder { color: var(--t-xlo); }
+.mfield select option { background: var(--ink-700); }
+
+.mfield-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* Channel toggles */
+.ch-toggles { display: flex; gap: 8px; }
+.ch-toggle {
+  flex: 1;
+  padding: 9px 8px;
+  border-radius: var(--r);
+  border: 0.5px solid var(--b-md);
+  background: var(--b-lo);
+  color: var(--t-lo);
+  font-size: 11px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: all .15s;
+}
+.ch-toggle i { font-size: 14px; }
+.ch-toggle.active-wa { background: rgba(37,211,102,0.12); border-color: rgba(37,211,102,0.3); color: #4ade80; }
+.ch-toggle.active-ig { background: rgba(236,72,153,0.12);  border-color: rgba(236,72,153,0.3);  color: #f9a8d4; }
+.ch-toggle.active-fb { background: rgba(59,130,246,0.12);  border-color: rgba(59,130,246,0.3);  color: #93c5fd; }
+
+.modal-foot {
+  padding: 14px 20px;
+  border-top: 0.5px solid var(--b-md);
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.mbtn {
+  height: 34px;
+  padding: 0 16px;
+  border-radius: var(--r);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background .15s;
+}
+.mbtn.cancel { background: var(--b-lo); border: 0.5px solid var(--b-md); color: var(--t-md); }
+.mbtn.cancel:hover { background: var(--b-md); }
+.mbtn.confirm { background: var(--violet); border: none; color: #fff; }
+.mbtn.confirm:hover { background: var(--violet-d); }
+
+/* ===== ROLES SECTION ===== */
+.roles-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.role-card {
+  background: var(--ink-700);
+  border: 0.5px solid var(--b-md);
+  border-radius: var(--r-md);
+  padding: 16px 18px;
+  transition: border-color .2s;
+}
+.role-card:hover { border-color: var(--b-hi); }
+
+.role-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.role-name-wrap { display: flex; align-items: center; gap: 8px; }
+
+.role-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--r);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+.role-icon.admin      { background: var(--violet-lo); color: #a5b4fc; }
+.role-icon.supervisor { background: rgba(245,158,11,0.12); color: #fcd34d; }
+.role-icon.agente     { background: var(--b-lo); color: var(--t-md); }
+.role-icon.solo-vista  { background: rgba(6,182,212,0.10); color: #67e8f9; }
+
+.role-card-name { font-size: 13px; font-weight: 500; color: var(--t-hi); }
+.role-card-count { font-size: 11px; color: var(--t-xlo); }
+
+.perms { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+
+.perm {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  color: var(--t-md);
+}
+.perm i { font-size: 13px; }
+.perm i.ok   { color: var(--emerald); }
+.perm i.no   { color: var(--t-xlo); }
+.perm i.warn { color: var(--amber); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .roles-grid { grid-template-columns: 1fr; }
+  .table-head,
+  .agent-row { grid-template-columns: 2fr 1fr 1fr 60px; }
+  .col-tickets, .col-channels { display: none; }
+}
+
+@media (max-width: 600px) {
+  .sidenav { display: none; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .table-head,
+  .agent-row { grid-template-columns: 2fr 1fr 60px; }
+  .col-status { display: none; }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <!-- ===== NAV LATERAL ===== -->
+  <nav class="sidenav" aria-label="Navegación principal">
+    <div class="sidenav-logo" aria-label="NEXO">
+      <svg viewBox="0 0 20 20">
+        <circle cx="10" cy="4"  r="2"/>
+        <circle cx="3"  cy="15" r="2"/>
+        <circle cx="17" cy="15" r="2"/>
+        <line x1="10" y1="6"  x2="4"  y2="13"/>
+        <line x1="10" y1="6"  x2="16" y2="13"/>
+        <line x1="5"  y1="15" x2="15" y2="15"/>
+      </svg>
+    </div>
+
+    <a href="message.html" class="nav-item" title="Bandeja">
+      <i class="ti ti-inbox" aria-hidden="true"></i>
+      <span class="tooltip">Bandeja</span>
+    </a>
+    <a href="#" class="nav-item" title="Contactos">
+      <i class="ti ti-address-book" aria-hidden="true"></i>
+      <span class="tooltip">Contactos</span>
+    </a>
+    <a href="#" class="nav-item active" title="Agentes" aria-current="page">
+      <i class="ti ti-users" aria-hidden="true"></i>
+      <span class="tooltip">Agentes</span>
+    </a>
+    <a href="#" class="nav-item" title="Reportes">
+      <i class="ti ti-chart-bar" aria-hidden="true"></i>
+      <span class="tooltip">Reportes</span>
+    </a>
+
+    <div class="nav-sep"></div>
+
+    <a href="#" class="nav-item" title="Configuración">
+      <i class="ti ti-settings" aria-hidden="true"></i>
+      <span class="tooltip">Configuración</span>
+    </a>
+
+    <div class="nav-bottom">
+      <div class="user-av-sm" title="Mi cuenta">GA</div>
+    </div>
+  </nav>
+
+  <!-- ===== MAIN ===== -->
+  <div class="main">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="breadcrumb">
+          <span>NEXO</span>
+          <i class="ti ti-chevron-right" style="font-size:11px;" aria-hidden="true"></i>
+          <span style="color:var(--t-md);">Agentes</span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="tbtn" onclick="openModal()">
+          <i class="ti ti-user-plus" aria-hidden="true"></i>
+          Invitar agente
+        </button>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- STATS -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-card-top">
+            <div class="stat-label">Total agentes</div>
+            <div class="stat-icon violet"><i class="ti ti-users" aria-hidden="true"></i></div>
+          </div>
+          <div class="stat-value">6</div>
+          <div class="stat-sub">En tu organización</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top">
+            <div class="stat-label">En línea ahora</div>
+            <div class="stat-icon green"><i class="ti ti-circle-check" aria-hidden="true"></i></div>
+          </div>
+          <div class="stat-value">4</div>
+          <div class="stat-sub">Disponibles para atender</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top">
+            <div class="stat-label">Tickets activos</div>
+            <div class="stat-icon amber"><i class="ti ti-ticket" aria-hidden="true"></i></div>
+          </div>
+          <div class="stat-value">23</div>
+          <div class="stat-sub">Entre todos los agentes</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top">
+            <div class="stat-label">Invitaciones</div>
+            <div class="stat-icon red"><i class="ti ti-mail-forward" aria-hidden="true"></i></div>
+          </div>
+          <div class="stat-value">1</div>
+          <div class="stat-sub">Pendiente de aceptar</div>
+        </div>
+      </div>
+
+      <!-- AGENTS TABLE -->
+      <div class="section-head">
+        <div class="section-title">Agentes del equipo</div>
+      </div>
+
+      <div class="filters">
+        <div class="search-wrap">
+          <i class="ti ti-search" aria-hidden="true"></i>
+          <input type="text" placeholder="Buscar por nombre o correo..." id="agentSearch" oninput="filterAgents()">
+        </div>
+        <select class="filter-select" id="roleFilter" onchange="filterAgents()">
+          <option value="">Todos los roles</option>
+          <option value="admin">Admin</option>
+          <option value="supervisor">Supervisor</option>
+          <option value="agente">Agente</option>
+          <option value="solo-vista">Solo vista</option>
+        </select>
+        <select class="filter-select" id="statusFilter" onchange="filterAgents()">
+          <option value="">Cualquier estado</option>
+          <option value="on">En línea</option>
+          <option value="busy">Ocupado</option>
+          <option value="off">Desconectado</option>
+        </select>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-head">
+          <div class="th">Agente</div>
+          <div class="th">Rol</div>
+          <div class="th col-status">Estado</div>
+          <div class="th col-tickets">Tickets</div>
+          <div class="th col-channels">Canales</div>
+          <div class="th"></div>
+        </div>
+
+        <div id="agentList">
+
+          <div class="agent-row" data-role="admin" data-status="on">
+            <div class="agent-id">
+              <div class="ag-av v">CM<div class="online-dot on"></div></div>
+              <div>
+                <div class="ag-name">Carlos Martínez</div>
+                <div class="ag-email">carlos@nexocrm.com</div>
+              </div>
+            </div>
+            <div><span class="role-badge admin"><i class="ti ti-shield-check" style="font-size:10px;" aria-hidden="true"></i> Admin</span></div>
+            <div class="col-status"><span class="status-chip on"><span class="dot"></span>En línea</span></div>
+            <div class="ticket-count col-tickets">8 activos</div>
+            <div class="ch-icons col-channels">
+              <div class="ch-ico wa" title="WhatsApp"><i class="ti ti-brand-whatsapp" aria-hidden="true"></i></div>
+              <div class="ch-ico ig" title="Instagram"><i class="ti ti-brand-instagram" aria-hidden="true"></i></div>
+              <div class="ch-ico fb" title="Facebook"><i class="ti ti-brand-facebook" aria-hidden="true"></i></div>
+            </div>
+            <div class="row-actions">
+              <button class="row-btn" title="Editar" aria-label="Editar agente" onclick="openModal('Carlos Martínez')"><i class="ti ti-edit" aria-hidden="true"></i></button>
+              <button class="row-btn danger" title="Eliminar" aria-label="Eliminar agente"><i class="ti ti-trash" aria-hidden="true"></i></button>
+            </div>
+          </div>
+
+          <div class="agent-row" data-role="supervisor" data-status="on">
+            <div class="agent-id">
+              <div class="ag-av a">EL<div class="online-dot on"></div></div>
+              <div>
+                <div class="ag-name">Eliana López</div>
+                <div class="ag-email">eliana@nexocrm.com</div>
+              </div>
+            </div>
+            <div><span class="role-badge supervisor"><i class="ti ti-star" style="font-size:10px;" aria-hidden="true"></i> Supervisor</span></div>
+            <div class="col-status"><span class="status-chip on"><span class="dot"></span>En línea</span></div>
+            <div class="ticket-count col-tickets">5 activos</div>
+            <div class="ch-icons col-channels">
+              <div class="ch-ico wa" title="WhatsApp"><i class="ti ti-brand-whatsapp" aria-hidden="true"></i></div>
+              <div class="ch-ico ig" title="Instagram"><i class="ti ti-brand-instagram" aria-hidden="true"></i></div>
+            </div>
+            <div class="row-actions">
+              <button class="row-btn" title="Editar" aria-label="Editar agente" onclick="openModal('Eliana López')"><i class="ti ti-edit" aria-hidden="true"></i></button>
+              <button class="row-btn danger" title="Eliminar" aria-label="Eliminar agente"><i class="ti ti-trash" aria-hidden="true"></i></button>
+            </div>
+          </div>
+
+          <div class="agent-row" data-role="agente" data-status="busy">
+            <div class="agent-id">
+              <div class="ag-av t">MR<div class="online-dot busy"></div></div>
+              <div>
+                <div class="ag-name">Miguel Reyes</div>
+                <div class="ag-email">miguel@nexocrm.com</div>
+              </div>
+            </div>
+            <div><span class="role-badge agente"><i class="ti ti-headset" style="font-size:10px;" aria-hidden="true"></i> Agente</span></div>
+            <div class="col-status"><span class="status-chip busy"><span class="dot"></span>Ocupado</span></div>
+            <div class="ticket-count col-tickets">4 activos</div>
+            <div class="ch-icons col-channels">
+              <div class="ch-ico wa" title="WhatsApp"><i class="ti ti-brand-whatsapp" aria-hidden="true"></i></div>
+            </div>
+            <div class="row-actions">
+              <button class="row-btn" title="Editar" aria-label="Editar agente" onclick="openModal('Miguel Reyes')"><i class="ti ti-edit" aria-hidden="true"></i></button>
+              <button class="row-btn danger" title="Eliminar" aria-label="Eliminar agente"><i class="ti ti-trash" aria-hidden="true"></i></button>
+            </div>
+          </div>
+
+          <div class="agent-row" data-role="agente" data-status="on">
+            <div class="agent-id">
+              <div class="ag-av g">SP<div class="online-dot on"></div></div>
+              <div>
+                <div class="ag-name">Sara Peña</div>
+                <div class="ag-email">sara@nexocrm.com</div>
+              </div>
+            </div>
+            <div><span class="role-badge agente"><i class="ti ti-headset" style="font-size:10px;" aria-hidden="true"></i> Agente</span></div>
+            <div class="col-status"><span class="status-chip on"><span class="dot"></span>En línea</span></div>
+            <div class="ticket-count col-tickets">3 activos</div>
+            <div class="ch-icons col-channels">
+              <div class="ch-ico ig" title="Instagram"><i class="ti ti-brand-instagram" aria-hidden="true"></i></div>
+              <div class="ch-ico fb" title="Facebook"><i class="ti ti-brand-facebook" aria-hidden="true"></i></div>
+            </div>
+            <div class="row-actions">
+              <button class="row-btn" title="Editar" aria-label="Editar agente" onclick="openModal('Sara Peña')"><i class="ti ti-edit" aria-hidden="true"></i></button>
+              <button class="row-btn danger" title="Eliminar" aria-label="Eliminar agente"><i class="ti ti-trash" aria-hidden="true"></i></button>
+            </div>
+          </div>
+
+          <div class="agent-row" data-role="agente" data-status="off">
+            <div class="agent-id">
+              <div class="ag-av pk">JH<div class="online-dot off"></div></div>
+              <div>
+                <div class="ag-name">Joel Holguin</div>
+                <div class="ag-email">joel@nexocrm.com</div>
+              </div>
+            </div>
+            <div><span class="role-badge agente"><i class="ti ti-headset" style="font-size:10px;" aria-hidden="true"></i> Agente</span></div>
+            <div class="col-status"><span class="status-chip off"><span class="dot"></span>Desconectado</span></div>
+            <div class="ticket-count col-tickets">2 activos</div>
+            <div class="ch-icons col-channels">
+              <div class="ch-ico wa" title="WhatsApp"><i class="ti ti-brand-whatsapp" aria-hidden="true"></i></div>
+              <div class="ch-ico ig" title="Instagram"><i class="ti ti-brand-instagram" aria-hidden="true"></i></div>
+            </div>
+            <div class="row-actions">
+              <button class="row-btn" title="Editar" aria-label="Editar agente" onclick="openModal('Joel Holguin')"><i class="ti ti-edit" aria-hidden="true"></i></button>
+              <button class="row-btn danger" title="Eliminar" aria-label="Eliminar agente"><i class="ti ti-trash" aria-hidden="true"></i></button>
+            </div>
+          </div>
+
+          <div class="agent-row" data-role="solo-vista" data-status="off">
+            <div class="agent-id">
+              <div class="ag-av r">YM<div class="online-dot off"></div></div>
+              <div>
+                <div class="ag-name">Yanna Martínez</div>
+                <div class="ag-email">yanna@nexocrm.com</div>
+              </div>
+            </div>
+            <div><span class="role-badge solo-vista"><i class="ti ti-eye" style="font-size:10px;" aria-hidden="true"></i> Solo vista</span></div>
+            <div class="col-status"><span class="status-chip off"><span class="dot"></span>Desconectado</span></div>
+            <div class="ticket-count col-tickets">—</div>
+            <div class="ch-icons col-channels">—</div>
+            <div class="row-actions">
+              <button class="row-btn" title="Editar" aria-label="Editar agente" onclick="openModal('Yanna Martínez')"><i class="ti ti-edit" aria-hidden="true"></i></button>
+              <button class="row-btn danger" title="Eliminar" aria-label="Eliminar agente"><i class="ti ti-trash" aria-hidden="true"></i></button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ROLES -->
+      <div class="section-head" style="margin-top:28px;">
+        <div class="section-title">Roles y permisos</div>
+      </div>
+
+      <div class="roles-grid">
+
+        <div class="role-card">
+          <div class="role-card-head">
+            <div class="role-name-wrap">
+              <div class="role-icon admin"><i class="ti ti-shield-check" aria-hidden="true"></i></div>
+              <div>
+                <div class="role-card-name">Admin</div>
+                <div class="role-card-count">1 agente</div>
+              </div>
+            </div>
+            <span class="role-badge admin">Admin</span>
+          </div>
+          <div class="perms">
+            <div class="perm"><i class="ti ti-circle-check ok" aria-hidden="true"></i> Ver y responder todas las conversaciones</div>
+            <div class="perm"><i class="ti ti-circle-check ok" aria-hidden="true"></i> Gestionar agentes y roles</div>
+            <div class="perm"><i class="ti ti-circle-check ok" aria-hidden="true"></i> Conectar y desconectar canales</div>
+            <div class="perm"><i class="ti ti-circle-check ok" aria-hidden="true"></i> Acceso a reportes y métricas</div>
+            <div class="perm"><i class="ti ti-circle-check ok" aria-hidden="true"></i> Configuración de la empresa</div>
+          </div>
+        </div>
+
+        <div class="role-card">
+          <div class="role-card-head">
+            <div class="role-name-wrap">
+              <div class="role-icon supervisor"><i class="ti ti-star" aria-hidden="true"></i></div>
+              <div>
+                <div class="role-card-name">Supervisor</div>
+                <div class="role-card-count">1 agente</div>
+              </div>
+            </div>
+            <span class="role-badge supervisor">Supervisor</span>
+          </div>
+          <div class="perms">
+            <div class="perm"><i class="ti ti-circle-check ok" aria-hidden="true"></i> Ver y responder todas las conversaciones</div>
+            <div class="perm"><i class="ti ti-circle-check ok" aria-hidden="true"></i> Reasignar tickets entre agentes</div>
+            <div class="perm"><i class="ti ti-circle-check ok" aria-hidden="true"></i> Acceso a reportes y métricas</div>
+            <div class="perm"><i class="ti ti-circle-dashed no" aria-hidden="true"></i> Gestionar agentes y roles</div>
+            <div class="perm"><i class="ti ti-circle-dashed no" aria-hidden="true"></i> Configuración de la empresa</div>
+          </div>
+        </div>
+
+        <div class="role-card">
+          <div class="role-card-head">
+            <div class="role-name-wrap">
+              <div class="role-icon agente"><i class="ti ti-headset" aria-hidden="true"></i></div>
+              <div>
+                <div class="role-card-name">Agente</div>
+                <div class="role-card-count">3 agentes</div>
+              </div>
+            </div>
+            <span class="role-badge agente">Agente</span>
+          </div>
+          <div class="perms">
+            <div class="perm"><i class="ti ti-circle-check ok" aria-hidden="true"></i> Ver y responder sus conversaciones</div>
+            <div class="perm"><i class="ti ti-circle-check ok" aria-hidden="true"></i> Gestionar sus propios tickets</div>
+            <div class="perm"><i class="ti ti-alert-circle warn" aria-hidden="true"></i> Ver reportes solo propios</div>
+            <div class="perm"><i class="ti ti-circle-dashed no" aria-hidden="true"></i> Reasignar a otros agentes</div>
+            <div class="perm"><i class="ti ti-circle-dashed no" aria-hidden="true"></i> Acceso a configuración</div>
+          </div>
+        </div>
+
+        <div class="role-card">
+          <div class="role-card-head">
+            <div class="role-name-wrap">
+              <div class="role-icon solo-vista"><i class="ti ti-eye" aria-hidden="true"></i></div>
+              <div>
+                <div class="role-card-name">Solo vista</div>
+                <div class="role-card-count">1 agente</div>
+              </div>
+            </div>
+            <span class="role-badge solo-vista">Solo vista</span>
+          </div>
+          <div class="perms">
+            <div class="perm"><i class="ti ti-circle-check ok" aria-hidden="true"></i> Ver conversaciones (sin responder)</div>
+            <div class="perm"><i class="ti ti-circle-check ok" aria-hidden="true"></i> Ver reportes y métricas</div>
+            <div class="perm"><i class="ti ti-circle-dashed no" aria-hidden="true"></i> Responder mensajes</div>
+            <div class="perm"><i class="ti ti-circle-dashed no" aria-hidden="true"></i> Gestionar tickets</div>
+            <div class="perm"><i class="ti ti-circle-dashed no" aria-hidden="true"></i> Acceso a configuración</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL INVITAR AGENTE ===== -->
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="modalTitle">Invitar agente</div>
+      <button class="modal-close" onclick="closeModal()" aria-label="Cerrar"><i class="ti ti-x" aria-hidden="true"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="mfield-row">
+        <div class="mfield">
+          <label><i class="ti ti-user" aria-hidden="true"></i> Nombre</label>
+          <input type="text" placeholder="Nombre completo" id="mName">
+        </div>
+        <div class="mfield">
+          <label><i class="ti ti-mail" aria-hidden="true"></i> Correo</label>
+          <input type="email" placeholder="correo@empresa.com" id="mEmail">
+        </div>
+      </div>
+      <div class="mfield">
+        <label><i class="ti ti-shield" aria-hidden="true"></i> Rol</label>
+        <select id="mRole">
+          <option value="agente">Agente</option>
+          <option value="supervisor">Supervisor</option>
+          <option value="admin">Admin</option>
+          <option value="solo-vista">Solo vista</option>
+        </select>
+      </div>
+      <div class="mfield">
+        <label><i class="ti ti-plug" aria-hidden="true"></i> Canales asignados</label>
+        <div class="ch-toggles">
+          <button class="ch-toggle" onclick="toggleCh(this,'active-wa')" type="button">
+            <i class="ti ti-brand-whatsapp" aria-hidden="true"></i> WhatsApp
+          </button>
+          <button class="ch-toggle" onclick="toggleCh(this,'active-ig')" type="button">
+            <i class="ti ti-brand-instagram" aria-hidden="true"></i> Instagram
+          </button>
+          <button class="ch-toggle" onclick="toggleCh(this,'active-fb')" type="button">
+            <i class="ti ti-brand-facebook" aria-hidden="true"></i> Facebook
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="mbtn cancel" onclick="closeModal()">Cancelar</button>
+      <button class="mbtn confirm" onclick="sendInvite()">
+        <i class="ti ti-send" aria-hidden="true"></i> Enviar invitación
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+function openModal(name) {
+  const overlay = document.getElementById('overlay');
+  const title   = document.getElementById('modalTitle');
+  title.textContent = name ? `Editar agente` : 'Invitar agente';
+  if (name) document.getElementById('mName').value = name;
+  overlay.classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('mName').value  = '';
+  document.getElementById('mEmail').value = '';
+  document.getElementById('mRole').value  = 'agente';
+  document.querySelectorAll('.ch-toggle').forEach(t => {
+    t.className = 'ch-toggle';
+  });
+}
+
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('overlay')) closeModal();
+}
+
+function toggleCh(el, cls) {
+  if (el.classList.contains(cls)) {
+    el.classList.remove(cls);
+  } else {
+    el.classList.remove('active-wa','active-ig','active-fb');
+    el.classList.add(cls);
+  }
+}
+
+function sendInvite() {
+  const name  = document.getElementById('mName').value.trim();
+  const email = document.getElementById('mEmail').value.trim();
+  if (!name || !email) {
+    if (!name)  document.getElementById('mName').focus();
+    else        document.getElementById('mEmail').focus();
+    return;
+  }
+  closeModal();
+}
+
+function filterAgents() {
+  const q      = document.getElementById('agentSearch').value.toLowerCase();
+  const role   = document.getElementById('roleFilter').value;
+  const status = document.getElementById('statusFilter').value;
+  document.querySelectorAll('.agent-row').forEach(row => {
+    const name    = row.querySelector('.ag-name').textContent.toLowerCase();
+    const email   = row.querySelector('.ag-email').textContent.toLowerCase();
+    const rowRole = row.dataset.role;
+    const rowSt   = row.dataset.status;
+    const matchQ  = !q      || name.includes(q) || email.includes(q);
+    const matchR  = !role   || rowRole === role;
+    const matchS  = !status || rowSt   === status;
+    row.style.display = (matchQ && matchR && matchS) ? '' : 'none';
+  });
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+</script>
+</body>
+</html>
