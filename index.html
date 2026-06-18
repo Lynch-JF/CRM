@@ -14,20 +14,17 @@
   --ink-800: #111827;
   --ink-700: #1e2a3a;
   --ink-600: #263348;
-  --ink-400: #3d4f6a;
   --ink-200: rgba(255,255,255,0.12);
   --ink-100: rgba(255,255,255,0.06);
   --ink-50:  rgba(255,255,255,0.03);
-  --t-hi: rgba(255,255,255,0.96);
-  --t-md: rgba(255,255,255,0.50);
-  --t-lo: rgba(255,255,255,0.28);
+  --t-hi:  rgba(255,255,255,0.96);
+  --t-md:  rgba(255,255,255,0.50);
+  --t-lo:  rgba(255,255,255,0.28);
   --t-xlo: rgba(255,255,255,0.14);
   --violet: #6366f1;
   --violet-d: #4f46e5;
   --violet-glow: rgba(99,102,241,0.18);
   --emerald: #10b981;
-  --amber: #f59e0b;
-  --danger: #ef4444;
   --r: 10px;
   --r-lg: 16px;
   --r-xl: 22px;
@@ -47,7 +44,6 @@ body {
   overflow: hidden;
 }
 
-/* Subtle ambient bg */
 body::before {
   content: '';
   position: fixed;
@@ -58,7 +54,6 @@ body::before {
   pointer-events: none;
 }
 
-/* Grid noise texture */
 body::after {
   content: '';
   position: fixed;
@@ -71,7 +66,6 @@ body::after {
   pointer-events: none;
 }
 
-/* ===== SHELL ===== */
 .shell {
   display: grid;
   grid-template-columns: 340px 1fr;
@@ -88,7 +82,6 @@ body::after {
 
 @keyframes rise {
   from { opacity: 0; transform: translateY(20px) scale(0.98); }
-  to   { opacity: 1; transform: none; }
 }
 
 /* ===== LEFT ===== */
@@ -116,6 +109,7 @@ body::after {
   pointer-events: none;
 }
 
+/* ===== LOGO ===== */
 .logo {
   display: flex;
   align-items: center;
@@ -124,25 +118,31 @@ body::after {
 }
 
 .logo-mark {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   background: var(--violet);
-  border-radius: 9px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
-  font-weight: 600;
-  color: #fff;
-  letter-spacing: -0.5px;
   flex-shrink: 0;
 }
 
+.logo-mark svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .logo-name {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
   color: var(--t-hi);
-  letter-spacing: -0.3px;
+  letter-spacing: 1.5px;
 }
 
 .plan-pill {
@@ -177,11 +177,7 @@ body::after {
   margin-bottom: 36px;
 }
 
-.stat-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
+.stat-list { display: flex; flex-direction: column; gap: 14px; }
 
 .stat {
   display: flex;
@@ -193,31 +189,11 @@ body::after {
   border-radius: var(--r);
 }
 
-.stat-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
+.stat-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.stat-label { flex: 1; font-size: 12px; color: var(--t-md); }
+.stat-value { font-size: 13px; font-weight: 600; color: var(--t-hi); font-variant-numeric: tabular-nums; }
 
-.stat-label {
-  flex: 1;
-  font-size: 12px;
-  color: var(--t-md);
-}
-
-.stat-value {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--t-hi);
-  font-variant-numeric: tabular-nums;
-}
-
-.left-footer {
-  font-size: 11px;
-  color: var(--t-xlo);
-  line-height: 1.7;
-}
+.left-footer { font-size: 11px; color: var(--t-xlo); line-height: 1.7; }
 
 /* ===== RIGHT ===== */
 .right {
@@ -245,13 +221,8 @@ body::after {
   margin-bottom: 6px;
 }
 
-.form-sub {
-  font-size: 13px;
-  color: var(--t-md);
-  margin-bottom: 30px;
-}
+.form-sub { font-size: 13px; color: var(--t-md); margin-bottom: 30px; }
 
-/* TABS */
 .tabs {
   display: flex;
   gap: 4px;
@@ -275,17 +246,11 @@ body::after {
   user-select: none;
   border: none;
   background: none;
+  font-family: 'Inter', sans-serif;
 }
+.tab.active { background: var(--violet); color: #fff; }
 
-.tab.active {
-  background: var(--violet);
-  color: #fff;
-}
-
-/* FIELDS */
-.field {
-  margin-bottom: 14px;
-}
+.field { margin-bottom: 14px; }
 
 .field label {
   display: flex;
@@ -298,10 +263,7 @@ body::after {
   letter-spacing: 0.8px;
   margin-bottom: 7px;
 }
-
-.field label i {
-  font-size: 13px;
-}
+.field label i { font-size: 13px; }
 
 .field input {
   width: 100%;
@@ -315,15 +277,8 @@ body::after {
   outline: none;
   transition: border-color .2s, background .2s;
 }
-
-.field input:focus {
-  border-color: rgba(99,102,241,0.6);
-  background: rgba(99,102,241,0.05);
-}
-
-.field input::placeholder {
-  color: var(--t-xlo);
-}
+.field input:focus { border-color: rgba(99,102,241,0.6); background: rgba(99,102,241,0.05); }
+.field input::placeholder { color: var(--t-xlo); }
 
 .forgot {
   display: block;
@@ -355,8 +310,7 @@ body::after {
   justify-content: center;
   gap: 6px;
 }
-
-.btn:hover { background: var(--violet-d); }
+.btn:hover  { background: var(--violet-d); }
 .btn:active { transform: scale(0.99); }
 
 .divider {
@@ -367,18 +321,9 @@ body::after {
   font-size: 11px;
   color: var(--t-xlo);
 }
-.divider::before, .divider::after {
-  content: '';
-  flex: 1;
-  height: 0.5px;
-  background: var(--ink-200);
-}
+.divider::before, .divider::after { content: ''; flex: 1; height: 0.5px; background: var(--ink-200); }
 
-.sso-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
+.sso-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
 .sso-btn {
   display: flex;
@@ -393,12 +338,11 @@ body::after {
   font-size: 12px;
   font-family: 'Inter', sans-serif;
   cursor: pointer;
-  transition: background .2s, border-color .2s;
+  transition: background .2s, color .2s;
 }
-.sso-btn:hover { background: var(--ink-50); border-color: var(--ink-200); color: var(--t-hi); }
+.sso-btn:hover { background: var(--ink-50); color: var(--t-hi); }
 .sso-btn i { font-size: 15px; }
 
-/* ===== RESPONSIVE ===== */
 @media (max-width: 680px) {
   body { padding: 0; align-items: stretch; }
   .shell { grid-template-columns: 1fr; border-radius: 0; min-height: 100vh; }
@@ -414,13 +358,24 @@ body::after {
   <div class="left">
     <div>
       <div class="logo">
-        <div class="logo-mark">M</div>
-        <span class="logo-name">MiCRM</span>
+        <div class="logo-mark">
+          <svg viewBox="0 0 20 20">
+            <circle cx="10" cy="4"  r="2"/>
+            <circle cx="3"  cy="15" r="2"/>
+            <circle cx="17" cy="15" r="2"/>
+            <line x1="10" y1="6"  x2="4"  y2="13"/>
+            <line x1="10" y1="6"  x2="16" y2="13"/>
+            <line x1="5"  y1="15" x2="15" y2="15"/>
+          </svg>
+        </div>
+        <span class="logo-name">NEXO</span>
       </div>
+
       <div class="plan-pill">
-        <i class="ti ti-sparkles" style="font-size:11px;"></i>
+        <i class="ti ti-sparkles" style="font-size:11px;" aria-hidden="true"></i>
         Multiempresa SaaS
       </div>
+
       <p class="left-headline">Todas tus conversaciones,<br>un solo lugar.</p>
       <p class="left-sub">WhatsApp, Instagram y Facebook Messenger<br>unificados con tu equipo en tiempo real.</p>
 
@@ -444,8 +399,8 @@ body::after {
     </div>
 
     <div class="left-footer">
-      © 2026 MiCRM · Todos los derechos reservados<br>
-      Versión 2.4.1 · Estado del sistema: <span style="color:#10b981;">Operativo</span>
+      © 2026 NEXO · Todos los derechos reservados<br>
+      Versión 1.0 · Estado del sistema: <span style="color:#10b981;">Operativo</span>
     </div>
   </div>
 
@@ -463,52 +418,52 @@ body::after {
     <!-- LOGIN -->
     <div id="loginFields">
       <div class="field">
-        <label><i class="ti ti-building"></i> Empresa</label>
+        <label><i class="ti ti-building" aria-hidden="true"></i> Empresa</label>
         <input type="text" placeholder="miempresa" autocomplete="organization">
       </div>
       <div class="field">
-        <label><i class="ti ti-mail"></i> Correo</label>
+        <label><i class="ti ti-mail" aria-hidden="true"></i> Correo</label>
         <input type="email" placeholder="admin@miempresa.com" autocomplete="email">
       </div>
       <div class="field">
-        <label><i class="ti ti-lock"></i> Contraseña</label>
+        <label><i class="ti ti-lock" aria-hidden="true"></i> Contraseña</label>
         <input type="password" placeholder="••••••••" autocomplete="current-password">
       </div>
       <a href="#" class="forgot">¿Olvidaste tu contraseña?</a>
-      <a href="menssage.html" style="text-decoration:none;">
+      <a href="message.html" style="text-decoration:none;">
         <button class="btn">
           Entrar al panel
-          <i class="ti ti-arrow-right" style="font-size:14px;"></i>
+          <i class="ti ti-arrow-right" style="font-size:14px;" aria-hidden="true"></i>
         </button>
       </a>
       <div class="divider">o continúa con</div>
       <div class="sso-row">
-        <button class="sso-btn"><i class="ti ti-brand-google"></i> Google</button>
-        <button class="sso-btn"><i class="ti ti-brand-microsoft"></i> Microsoft</button>
+        <button class="sso-btn"><i class="ti ti-brand-google" aria-hidden="true"></i> Google</button>
+        <button class="sso-btn"><i class="ti ti-brand-microsoft" aria-hidden="true"></i> Microsoft</button>
       </div>
     </div>
 
     <!-- REGISTER -->
     <div id="registerFields" style="display:none;">
       <div class="field">
-        <label><i class="ti ti-building"></i> Nombre de la empresa</label>
+        <label><i class="ti ti-building" aria-hidden="true"></i> Nombre de la empresa</label>
         <input type="text" placeholder="Ej. Grupo Michel" autocomplete="organization">
       </div>
       <div class="field">
-        <label><i class="ti ti-user"></i> Administrador</label>
+        <label><i class="ti ti-user" aria-hidden="true"></i> Administrador</label>
         <input type="text" placeholder="Tu nombre completo" autocomplete="name">
       </div>
       <div class="field">
-        <label><i class="ti ti-mail"></i> Correo corporativo</label>
+        <label><i class="ti ti-mail" aria-hidden="true"></i> Correo corporativo</label>
         <input type="email" placeholder="admin@tuempresa.com" autocomplete="email">
       </div>
       <div class="field">
-        <label><i class="ti ti-lock"></i> Contraseña</label>
+        <label><i class="ti ti-lock" aria-hidden="true"></i> Contraseña</label>
         <input type="password" placeholder="Mínimo 8 caracteres" autocomplete="new-password">
       </div>
       <button class="btn" style="margin-top:4px;">
         Crear cuenta
-        <i class="ti ti-arrow-right" style="font-size:14px;"></i>
+        <i class="ti ti-arrow-right" style="font-size:14px;" aria-hidden="true"></i>
       </button>
     </div>
   </div>
