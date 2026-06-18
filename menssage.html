@@ -26,12 +26,12 @@
   --violet: #6366f1;
   --violet-d: #4f46e5;
   --violet-lo: rgba(99,102,241,0.14);
-  --violet-b: rgba(99,102,241,0.30);
+  --violet-b:  rgba(99,102,241,0.30);
   --emerald: #10b981;
   --amber: #f59e0b;
-  --danger-t: #f87171;
+  --danger-t:  #f87171;
   --danger-bg: rgba(239,68,68,0.08);
-  --danger-b: rgba(239,68,68,0.22);
+  --danger-b:  rgba(239,68,68,0.22);
   --r: 8px;
   --r-md: 12px;
   --r-lg: 16px;
@@ -47,15 +47,9 @@ body {
   height: 100vh;
 }
 
-/* ===================== APP SHELL ===================== */
-.app {
-  display: flex;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-}
+.app { display: flex; width: 100%; height: 100vh; overflow: hidden; }
 
-/* ===================== SIDEBAR ===================== */
+/* ===== SIDEBAR ===== */
 .sidebar {
   width: 280px;
   min-width: 280px;
@@ -67,7 +61,6 @@ body {
   z-index: 20;
 }
 
-/* Header */
 .sb-header {
   padding: 18px 16px 14px;
   border-bottom: 0.5px solid var(--b-lo);
@@ -81,31 +74,35 @@ body {
   margin-bottom: 14px;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+/* ===== LOGO ===== */
+.logo { display: flex; align-items: center; gap: 8px; }
 
 .logo-mark {
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   background: var(--violet);
-  border-radius: 7px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
-  font-weight: 600;
-  color: #fff;
   flex-shrink: 0;
+}
+
+.logo-mark svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .logo-name {
   font-size: 14px;
   font-weight: 600;
   color: var(--t-hi);
-  letter-spacing: -0.3px;
+  letter-spacing: 1.2px;
 }
 
 .new-btn {
@@ -125,7 +122,6 @@ body {
 }
 .new-btn:hover { background: rgba(99,102,241,0.22); }
 
-/* Search */
 .search {
   display: flex;
   align-items: center;
@@ -149,7 +145,6 @@ body {
 }
 .search input::placeholder { color: var(--t-xlo); }
 
-/* Filter pills */
 .filter-row {
   display: flex;
   gap: 6px;
@@ -176,11 +171,7 @@ body {
   background: var(--b-lo);
   color: var(--t-md);
 }
-.fpill.active {
-  background: var(--violet-lo);
-  border-color: var(--violet-b);
-  color: #a5b4fc;
-}
+.fpill.active { background: var(--violet-lo); border-color: var(--violet-b); color: #a5b4fc; }
 .fpill i { font-size: 12px; }
 
 .sec-label {
@@ -192,7 +183,6 @@ body {
   letter-spacing: .9px;
 }
 
-/* Contact list */
 .clist {
   flex: 1;
   overflow-y: auto;
@@ -214,11 +204,7 @@ body {
   margin-bottom: 1px;
 }
 .ci:hover { background: var(--b-lo); }
-.ci.active {
-  background: var(--violet-lo);
-  border-left: 2px solid var(--violet);
-  padding-left: 6px;
-}
+.ci.active { background: var(--violet-lo); border-left: 2px solid var(--violet); padding-left: 6px; }
 
 .av {
   width: 38px;
@@ -269,7 +255,6 @@ body {
   padding: 0 4px;
 }
 
-/* Channel tag */
 .ch-tag {
   display: inline-flex;
   align-items: center;
@@ -283,7 +268,7 @@ body {
 }
 .ch-tag i { font-size: 10px; }
 
-/* ===================== USER FOOTER ===================== */
+/* ===== USER FOOTER ===== */
 .sb-foot {
   flex-shrink: 0;
   border-top: 0.5px solid var(--b-lo);
@@ -291,7 +276,6 @@ body {
   position: relative;
 }
 
-/* Popup — slides up */
 .user-popup {
   position: absolute;
   bottom: calc(100% + 6px);
@@ -307,11 +291,7 @@ body {
   transition: opacity .22s ease, transform .22s cubic-bezier(.22,1,.36,1);
   z-index: 100;
 }
-.user-popup.open {
-  opacity: 1;
-  transform: none;
-  pointer-events: all;
-}
+.user-popup.open { opacity: 1; transform: none; pointer-events: all; }
 
 .popup-section { padding: 6px; }
 
@@ -358,26 +338,20 @@ body {
 
 .pmenu-btn.whatsapp .pm-icon { background: rgba(37,211,102,0.12); color: #4ade80; }
 .pmenu-btn.instagram .pm-icon { background: rgba(236,72,153,0.12); color: #f9a8d4; }
-.pmenu-btn.facebook .pm-icon  { background: rgba(59,130,246,0.12);  color: #93c5fd; }
+.pmenu-btn.facebook  .pm-icon { background: rgba(59,130,246,0.12);  color: #93c5fd; }
 
 .pm-text { flex: 1; }
 .pm-label { font-size: 12px; color: var(--t-hi); font-weight: 500; }
 .pm-sub   { font-size: 10px; color: var(--t-lo); margin-top: 1px; }
 
-.pm-status {
-  font-size: 10px;
-  font-weight: 500;
-  padding: 2px 7px;
-  border-radius: 20px;
-}
+.pm-status { font-size: 10px; font-weight: 500; padding: 2px 7px; border-radius: 20px; }
 .pm-status.on  { background: rgba(16,185,129,0.12); color: #6ee7b7; }
 .pm-status.off { background: var(--b-lo); color: var(--t-xlo); }
 
-.pmenu-btn.danger .pm-icon { background: var(--danger-bg); color: var(--danger-t); }
+.pmenu-btn.danger .pm-icon  { background: var(--danger-bg); color: var(--danger-t); }
 .pmenu-btn.danger .pm-label { color: var(--danger-t); }
 .pmenu-btn.danger:hover { background: var(--danger-bg); }
 
-/* User trigger button */
 .user-trigger {
   display: flex;
   align-items: center;
@@ -413,15 +387,10 @@ body {
 .user-name { font-size: 12px; font-weight: 600; color: var(--t-hi); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .user-role { font-size: 10px; color: var(--t-lo); }
 
-.user-chevron {
-  font-size: 14px;
-  color: var(--t-lo);
-  transition: transform .22s;
-  flex-shrink: 0;
-}
+.user-chevron { font-size: 14px; color: var(--t-lo); transition: transform .22s; flex-shrink: 0; }
 .user-trigger.open .user-chevron { transform: rotate(180deg); }
 
-/* ===================== CHAT MAIN ===================== */
+/* ===== CHAT MAIN ===== */
 .chat-main {
   flex: 1;
   display: flex;
@@ -430,7 +399,6 @@ body {
   background: var(--ink-800);
 }
 
-/* Header */
 .chat-head {
   height: 58px;
   display: flex;
@@ -458,10 +426,11 @@ body {
   font-size: 15px;
 }
 
-.ch-name { font-size: 14px; font-weight: 500; color: var(--t-hi); }
+.ch-name   { font-size: 14px; font-weight: 500; color: var(--t-hi); }
 .ch-status { font-size: 11px; color: var(--emerald); display: flex; align-items: center; gap: 4px; }
 
 .ch-actions { display: flex; gap: 6px; }
+
 .hbtn {
   width: 32px;
   height: 32px;
@@ -478,7 +447,6 @@ body {
 }
 .hbtn:hover { background: var(--b-md); color: var(--t-hi); }
 
-/* Messages */
 .messages {
   flex: 1;
   overflow-y: auto;
@@ -528,18 +496,8 @@ body {
   line-height: 1.6;
 }
 
-.bubble.sent {
-  background: var(--violet);
-  color: #fff;
-  border-bottom-right-radius: 4px;
-}
-
-.bubble.recv {
-  background: var(--ink-700);
-  border: 0.5px solid var(--b-md);
-  color: var(--t-hi);
-  border-bottom-left-radius: 4px;
-}
+.bubble.sent { background: var(--violet); color: #fff; border-bottom-right-radius: 4px; }
+.bubble.recv { background: var(--ink-700); border: 0.5px solid var(--b-md); color: var(--t-hi); border-bottom-left-radius: 4px; }
 
 .btime {
   font-size: 10px;
@@ -552,10 +510,8 @@ body {
   gap: 3px;
 }
 .bubble.recv .btime { justify-content: flex-start; }
-
 .btime i { font-size: 11px; }
 
-/* Typing */
 .typing-bubble {
   display: flex;
   gap: 4px;
@@ -577,21 +533,6 @@ body {
 .tdot:nth-child(3) { animation-delay: .36s; }
 @keyframes bop { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)} }
 
-/* Empty state */
-.empty-state {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  color: var(--t-xlo);
-}
-.empty-state i { font-size: 42px; }
-.empty-state h3 { font-size: 15px; font-weight: 500; color: var(--t-lo); }
-.empty-state p  { font-size: 12px; }
-
-/* Input footer */
 .chat-foot {
   padding: 12px 18px;
   border-top: 0.5px solid var(--b-md);
@@ -650,11 +591,11 @@ body {
   transition: background .15s, transform .1s;
   flex-shrink: 0;
 }
-.send-btn:hover { background: var(--violet-d); transform: scale(1.05); }
+.send-btn:hover  { background: var(--violet-d); transform: scale(1.05); }
 .send-btn:active { transform: scale(0.97); }
 
-/* ===================== DETAIL PANEL ===================== */
-.panel {
+/* ===== DETAIL PANEL ===== */
+.detail-panel {
   width: 248px;
   min-width: 248px;
   background: var(--ink-850);
@@ -665,8 +606,8 @@ body {
   scrollbar-width: thin;
   scrollbar-color: var(--b-md) transparent;
 }
-.panel::-webkit-scrollbar { width: 4px; }
-.panel::-webkit-scrollbar-thumb { background: var(--b-md); border-radius: 2px; }
+.detail-panel::-webkit-scrollbar { width: 4px; }
+.detail-panel::-webkit-scrollbar-thumb { background: var(--b-md); border-radius: 2px; }
 
 .panel-top {
   padding: 22px 18px 18px;
@@ -708,9 +649,9 @@ body {
   border-radius: 20px;
   border: 0.5px solid transparent;
 }
-.tag.v  { background: var(--violet-lo); color: #a5b4fc; border-color: var(--violet-b); }
-.tag.g  { background: rgba(16,185,129,0.12); color: #6ee7b7; border-color: rgba(16,185,129,0.28); }
-.tag.a  { background: rgba(245,158,11,0.12); color: #fcd34d; border-color: rgba(245,158,11,0.28); }
+.tag.v  { background: var(--violet-lo);              color: #a5b4fc; border-color: var(--violet-b); }
+.tag.g  { background: rgba(16,185,129,0.12);  color: #6ee7b7; border-color: rgba(16,185,129,0.28); }
+.tag.a  { background: rgba(245,158,11,0.12);  color: #fcd34d; border-color: rgba(245,158,11,0.28); }
 
 .panel-notes {
   width: 100%;
@@ -751,19 +692,12 @@ body {
 .close-ticket-btn:hover { background: rgba(239,68,68,0.14); }
 .close-ticket-btn i { font-size: 13px; }
 
-/* ===================== RESPONSIVE ===================== */
-@media (max-width: 900px) {
-  .panel { display: none !important; }
-}
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) { .detail-panel { display: none !important; } }
 
 @media (max-width: 600px) {
-  .panel { display: none !important; }
-  .sidebar {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-  }
+  .detail-panel { display: none !important; }
+  .sidebar { position: absolute; inset: 0; width: 100%; height: 100%; }
   .sidebar.collapsed { transform: translateX(-100%); }
   .chat-main { width: 100%; }
   .back-btn { display: flex !important; }
@@ -779,14 +713,22 @@ body {
 
   <!-- ===== SIDEBAR ===== -->
   <aside class="sidebar" id="sidebar">
-
     <div class="sb-header">
       <div class="sb-top">
         <div class="logo">
-          <div class="logo-mark">N</div>
+          <div class="logo-mark">
+            <svg viewBox="0 0 20 20">
+              <circle cx="10" cy="4"  r="2"/>
+              <circle cx="3"  cy="15" r="2"/>
+              <circle cx="17" cy="15" r="2"/>
+              <line x1="10" y1="6"  x2="4"  y2="13"/>
+              <line x1="10" y1="6"  x2="16" y2="13"/>
+              <line x1="5"  y1="15" x2="15" y2="15"/>
+            </svg>
+          </div>
           <span class="logo-name">NEXO</span>
         </div>
-        <div class="new-btn" title="Nueva conversación">
+        <div class="new-btn" title="Nueva conversación" aria-label="Nueva conversación">
           <i class="ti ti-edit" aria-hidden="true"></i>
         </div>
       </div>
@@ -854,13 +796,11 @@ body {
 
     <!-- USER FOOTER -->
     <div class="sb-foot">
-      <!-- Popup menu -->
       <div class="user-popup" id="userPopup" role="menu">
 
         <div class="popup-section">
           <div class="popup-title">Canales conectados</div>
-
-          <button class="pmenu-btn whatsapp" onclick="noop()" role="menuitem">
+          <button class="pmenu-btn whatsapp" role="menuitem">
             <div class="pm-icon"><i class="ti ti-brand-whatsapp" aria-hidden="true"></i></div>
             <div class="pm-text">
               <div class="pm-label">WhatsApp Business</div>
@@ -868,17 +808,15 @@ body {
             </div>
             <span class="pm-status on">Activo</span>
           </button>
-
-          <button class="pmenu-btn instagram" onclick="noop()" role="menuitem">
+          <button class="pmenu-btn instagram" role="menuitem">
             <div class="pm-icon"><i class="ti ti-brand-instagram" aria-hidden="true"></i></div>
             <div class="pm-text">
               <div class="pm-label">Instagram</div>
-              <div class="pm-sub">@grupoandino</div>
+              <div class="pm-sub">@nexocrm</div>
             </div>
             <span class="pm-status on">Activo</span>
           </button>
-
-          <button class="pmenu-btn facebook" onclick="noop()" role="menuitem">
+          <button class="pmenu-btn facebook" role="menuitem">
             <div class="pm-icon"><i class="ti ti-brand-facebook" aria-hidden="true"></i></div>
             <div class="pm-text">
               <div class="pm-label">Facebook Messenger</div>
@@ -892,26 +830,22 @@ body {
 
         <div class="popup-section">
           <div class="popup-title">Cuenta</div>
-
-          <button class="pmenu-btn" onclick="noop()" role="menuitem">
+          <button class="pmenu-btn" role="menuitem">
             <div class="pm-icon"><i class="ti ti-user-circle" aria-hidden="true"></i></div>
             <div class="pm-text"><div class="pm-label">Mi perfil</div></div>
           </button>
-
-          <button class="pmenu-btn" onclick="noop()" role="menuitem">
+          <button class="pmenu-btn" role="menuitem">
             <div class="pm-icon"><i class="ti ti-settings" aria-hidden="true"></i></div>
             <div class="pm-text"><div class="pm-label">Configuración general</div></div>
           </button>
-
-          <button class="pmenu-btn" onclick="noop()" role="menuitem">
+          <button class="pmenu-btn" role="menuitem">
             <div class="pm-icon"><i class="ti ti-users" aria-hidden="true"></i></div>
             <div class="pm-text">
               <div class="pm-label">Gestionar agentes</div>
               <div class="pm-sub">4 agentes activos</div>
             </div>
           </button>
-
-          <button class="pmenu-btn" onclick="noop()" role="menuitem">
+          <button class="pmenu-btn" role="menuitem">
             <div class="pm-icon"><i class="ti ti-bell" aria-hidden="true"></i></div>
             <div class="pm-text"><div class="pm-label">Notificaciones</div></div>
           </button>
@@ -928,7 +862,6 @@ body {
 
       </div>
 
-      <!-- Trigger button -->
       <button class="user-trigger" id="userTrigger" onclick="togglePopup()" aria-haspopup="true" aria-expanded="false">
         <div class="user-av">GA</div>
         <div class="user-info">
@@ -942,7 +875,6 @@ body {
 
   <!-- ===== CHAT MAIN ===== -->
   <main class="chat-main">
-
     <header class="chat-head" id="chatHead">
       <div class="ch-left">
         <button class="back-btn" id="backBtn" onclick="goBack()" aria-label="Volver">
@@ -952,20 +884,19 @@ body {
         <div>
           <div class="ch-name" id="chatName">Juan Pérez</div>
           <div class="ch-status">
-            <i class="ti ti-circle-filled" style="font-size:7px;"></i> En línea
+            <i class="ti ti-circle-filled" style="font-size:7px;" aria-hidden="true"></i> En línea
           </div>
         </div>
       </div>
       <div class="ch-actions">
-        <div class="hbtn" title="Llamar"><i class="ti ti-phone" aria-hidden="true"></i></div>
-        <div class="hbtn" title="Buscar en conversación"><i class="ti ti-search" aria-hidden="true"></i></div>
-        <div class="hbtn" title="Más opciones"><i class="ti ti-dots-vertical" aria-hidden="true"></i></div>
+        <div class="hbtn" title="Llamar" aria-label="Llamar"><i class="ti ti-phone" aria-hidden="true"></i></div>
+        <div class="hbtn" title="Buscar" aria-label="Buscar en conversación"><i class="ti ti-search" aria-hidden="true"></i></div>
+        <div class="hbtn" title="Más opciones" aria-label="Más opciones"><i class="ti ti-dots-vertical" aria-hidden="true"></i></div>
       </div>
     </header>
 
     <div class="messages" id="messages">
       <div class="date-sep">Hoy</div>
-
       <div class="mrow">
         <div class="msg-av">JP</div>
         <div class="bubble recv">
@@ -973,14 +904,12 @@ body {
           <div class="btime">2:38 pm</div>
         </div>
       </div>
-
       <div class="mrow sent">
         <div class="bubble sent">
           ¡Hola Juan! Sí, tenemos el Pro Plus en azul en stock. ¿Te gustaría que te enviara el precio y opciones de entrega?
-          <div class="btime">2:39 pm <i class="ti ti-checks"></i></div>
+          <div class="btime">2:39 pm <i class="ti ti-checks" aria-hidden="true"></i></div>
         </div>
       </div>
-
       <div class="mrow">
         <div class="msg-av">JP</div>
         <div class="bubble recv">
@@ -988,7 +917,6 @@ body {
           <div class="btime">2:41 pm</div>
         </div>
       </div>
-
       <div class="mrow">
         <div class="typing-bubble">
           <div class="tdot"></div>
@@ -1000,50 +928,36 @@ body {
 
     <footer class="chat-foot">
       <div class="input-wrap">
-        <button class="iact" title="Adjuntar archivo" aria-label="Adjuntar archivo">
-          <i class="ti ti-paperclip" aria-hidden="true"></i>
-        </button>
-        <button class="iact" title="Emoji" aria-label="Emoji">
-          <i class="ti ti-mood-smile" aria-hidden="true"></i>
-        </button>
+        <button class="iact" title="Adjuntar" aria-label="Adjuntar archivo"><i class="ti ti-paperclip" aria-hidden="true"></i></button>
+        <button class="iact" title="Emoji" aria-label="Emoji"><i class="ti ti-mood-smile" aria-hidden="true"></i></button>
         <input type="text" id="msgInput" placeholder="Escribe un mensaje..." autocomplete="off" onkeydown="handleKey(event)">
-        <button class="iact" title="Nota de voz" aria-label="Nota de voz">
-          <i class="ti ti-microphone" aria-hidden="true"></i>
-        </button>
-        <button class="send-btn" onclick="sendMsg()" aria-label="Enviar mensaje">
-          <i class="ti ti-send" aria-hidden="true"></i>
-        </button>
+        <button class="iact" title="Nota de voz" aria-label="Nota de voz"><i class="ti ti-microphone" aria-hidden="true"></i></button>
+        <button class="send-btn" onclick="sendMsg()" aria-label="Enviar mensaje"><i class="ti ti-send" aria-hidden="true"></i></button>
       </div>
     </footer>
   </main>
 
   <!-- ===== DETAIL PANEL ===== -->
-  <aside class="panel">
-
+  <aside class="detail-panel">
     <div class="panel-top">
       <div class="panel-av" id="pav">JP</div>
       <div class="panel-name" id="pname">Juan Pérez</div>
       <div class="panel-id">ID #7721 · WhatsApp</div>
     </div>
-
     <div class="panel-body">
       <div class="prow">
         <div class="plbl">Teléfono</div>
         <div class="pval-link" id="pphone">+1 809-000-0001</div>
       </div>
-
       <div class="prow">
         <div class="plbl">Ciudad</div>
         <div class="pval">Santo Domingo, RD</div>
       </div>
-
       <div class="prow">
         <div class="plbl">Asignado a</div>
         <div class="pval">Carlos M. (tú)</div>
       </div>
-
       <div class="panel-sep"></div>
-
       <div class="prow">
         <div class="plbl">Etiquetas</div>
         <div class="tags">
@@ -1052,14 +966,11 @@ body {
           <span class="tag v">VIP</span>
         </div>
       </div>
-
       <div class="prow">
         <div class="plbl">Notas del agente</div>
         <textarea class="panel-notes" placeholder="Agrega una nota...">Cliente potencial para campaña de verano. Interesado en modelo Pro Plus.</textarea>
       </div>
-
     </div>
-
     <div class="panel-footer">
       <button class="close-ticket-btn">
         <i class="ti ti-circle-x" aria-hidden="true"></i>
@@ -1072,11 +983,11 @@ body {
 
 <script>
 const contacts = {
-  1: { name: 'Juan Pérez',    av: 'JP', phone: '+1 809-000-0001', cls: 'v' },
-  2: { name: 'María García',  av: 'MG', phone: '+1 809-000-0002', cls: 't' },
-  3: { name: 'Roberto Lima',  av: 'RL', phone: '+1 809-000-0003', cls: 'g' },
-  4: { name: 'Ana Soto',      av: 'AS', phone: '+1 809-000-0004', cls: 'pk'},
-  5: { name: 'Carlos Reyes',  av: 'CR', phone: '+1 809-000-0005', cls: 'a' },
+  1: { name: 'Juan Pérez',   av: 'JP', phone: '+1 809-000-0001', cls: 'v' },
+  2: { name: 'María García', av: 'MG', phone: '+1 809-000-0002', cls: 't' },
+  3: { name: 'Roberto Lima', av: 'RL', phone: '+1 809-000-0003', cls: 'g' },
+  4: { name: 'Ana Soto',     av: 'AS', phone: '+1 809-000-0004', cls: 'pk'},
+  5: { name: 'Carlos Reyes', av: 'CR', phone: '+1 809-000-0005', cls: 'a' },
 };
 
 let popupOpen = false;
@@ -1110,9 +1021,9 @@ function openChat(id, el) {
   av.textContent = c.av;
   av.className = `av ${c.cls}`;
   av.style.cssText = 'width:34px;height:34px;font-size:11px;border-radius:8px;';
-  document.getElementById('pav').textContent   = c.av;
-  document.getElementById('pname').textContent = c.name;
-  document.getElementById('pphone').textContent= c.phone;
+  document.getElementById('pav').textContent    = c.av;
+  document.getElementById('pname').textContent  = c.name;
+  document.getElementById('pphone').textContent = c.phone;
   if (window.innerWidth <= 600) {
     document.getElementById('sidebar').classList.add('collapsed');
   }
@@ -1130,7 +1041,7 @@ function sendMsg() {
   const t = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   const div = document.createElement('div');
   div.className = 'mrow sent';
-  div.innerHTML = `<div class="bubble sent">${text}<div class="btime">${t} <i class="ti ti-checks"></i></div></div>`;
+  div.innerHTML = `<div class="bubble sent">${text}<div class="btime">${t} <i class="ti ti-checks" aria-hidden="true"></i></div></div>`;
   const typing = msgs.querySelector('.typing-bubble');
   if (typing) msgs.insertBefore(div, typing.parentNode);
   else msgs.appendChild(div);
@@ -1139,9 +1050,7 @@ function sendMsg() {
 }
 
 function handleKey(e) { if (e.key === 'Enter') sendMsg(); }
-function noop() {}
 
-// Filter pills toggle
 document.querySelectorAll('.fpill').forEach(pill => {
   pill.addEventListener('click', function() {
     document.querySelectorAll('.fpill').forEach(p => p.classList.remove('active'));
